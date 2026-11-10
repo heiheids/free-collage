@@ -55,6 +55,7 @@ pub enum HitId {
     CloseCancel,
     AboutClose,
     Homepage,
+    SnapToggle,
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -112,6 +113,7 @@ pub struct Layout {
     pub zoom_fit: Rect,
     pub actual_size: Rect,
     pub tools: Vec<(Tool, Rect)>,
+    pub snap: Rect,
 }
 
 impl Layout {
@@ -220,6 +222,12 @@ impl Layout {
             let y = start_y + row * (bh + gap);
             tools.push((*tool, Rect::new(x, y, bw, bh)));
         }
+        let snap = Rect::new(
+            inner.x,
+            start_y + (rows - 1.0) * (bh + gap),
+            bw,
+            bh,
+        );
 
         Self {
             scale,
@@ -263,6 +271,7 @@ impl Layout {
             zoom_fit,
             actual_size,
             tools,
+            snap,
         }
     }
 

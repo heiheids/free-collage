@@ -1,7 +1,7 @@
 # Free Collage · Technical Notes
 
 > Project: Free Collage / 自由拼图  
-> Version: 1.0.0  
+> Version: 1.0.1  
 > Platform: Windows 10/11 x64  
 > License: GPL-3.0-only  
 > Source: https://github.com/heiheids/free-collage
@@ -187,6 +187,17 @@ Typical development machine, 1650×1075 Release: about 13 ms/frame for an empty 
 - Keyboard: tool shortcuts, undo, delete, fit, 100%, Tab layer cycling, Esc cancel.
 
 `tools.rs` defines the tool enum and drag state (`Pan`, `Move`, `Resize`, `Stroke`, `ShapeCreate`, `TextSelect`, etc.). Drag updates mutate state and repaint; history is committed on release.
+
+### Magnetic snapping
+
+**Snap** is an independent toggle below Save in the left toolbar, not a drawing mode. When enabled it affects only **image layer moves**:
+
+- The threshold is 8 screen pixels, converted with `8 / zoom`, so it feels consistent at every zoom level.
+- Horizontally, the moving image's left/centre/right edges are compared with other images' and fixed-page left/centre/right edges. Vertically the same applies to top/centre/bottom.
+- X and Y choose their nearest edge independently, so a vertical and a horizontal edge can snap at once. Image centres and the fixed page centre are also targets.
+- Targets are other visible image layers plus fixed-page edges/centre; an auto-crop canvas has no page target.
+- Only image layers move with snapping; text and shapes do not.
+- The pure calculation lives in `src/model/snap.rs` with tests for simultaneous X/Y snapping, out-of-threshold targets and page snapping.
 
 ## 8. Canvas and export
 

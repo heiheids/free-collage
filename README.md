@@ -21,7 +21,7 @@
 自由拼图面向快速拼图、截图整理和简单标注。它不依赖 Electron、Qt 或第三方 UI 运行时，界面由 tiny-skia 自绘，窗口、输入、剪贴板和截图使用 Win32 API。发布版为单个静态链接的 EXE，不需要额外 DLL。
 
 - 程序名：自由拼图 / Free Collage
-- 版本：1.0.0
+- 版本：1.0.1
 - 平台：Windows 10 / 11 x64
 - 技术栈：Rust 2021、Win32、tiny-skia、ab_glyph、image、webp
 - 许可证：GPL-3.0-only
@@ -33,6 +33,7 @@
 - **原生轻量界面**：自绘无边框 Win32 窗口，高 DPI 适配；大窗口使用 1.5× UI，小窗口自动紧凑排版，最小约 940×680。
 - **图片导入**：打开文件、`Ctrl+V` 粘贴、拖放文件均可；支持 PNG、JPEG、WebP、GIF（首帧）和 BMP。
 - **自由拼图**：拖动摆放、四角等比缩放、滚轮缩放视图；选择工具下拖动空白处或按住空格/中键平移；双击空白或点“适应”回中。
+- **磁吸对齐**：左栏“保存”下方的“磁吸”开关打开后，拖动图片靠近其他图片或固定页面边缘时会自动吸附；水平、垂直方向分别寻找最近的边并同时对齐，图片中心线也参与吸附。
 - **图层操作**：右键图片或任意图层可上移/下移一层；上层/下层不可用时菜单自动禁用；支持撤销（最多 60 步）。
 - **画布尺寸**：自动裁切；A4/B5 纵向或横向；自定义毫米尺寸与 36–1200 DPI；A4/B5 默认 300 DPI。
 - **文字标注**：九种 Windows 常用字体，支持字号、文字颜色、边缘色和描边宽度；中文 IME 编辑；编辑、画布显示和导出使用同一套字体轮廓。
@@ -52,13 +53,13 @@
 
 ### 下载
 
-从 [GitHub Releases](https://github.com/heiheids/free-collage/releases/latest) 下载最新的 `FreeCollage_v1.0.0_win64.zip`。发布包包含 EXE、语言文件、图标、README、GPL 许可证和第三方声明。
+从 [GitHub Releases](https://github.com/heiheids/free-collage/releases/latest) 下载最新的 `FreeCollage_v1.0.1_win64.zip`。发布包包含 EXE、语言文件、图标、README、GPL 许可证和第三方声明。
 
 ### 快速开始
 
 1. 解压发布包，运行 `自由拼图.exe`。
 2. 直接粘贴图片、拖入图片，或点击左侧“打开”。
-3. 用“选择”工具拖动图片，拖四角手柄缩放；滚轮缩放视图，拖动空白处/空格+拖动平移；双击空白回中；右键图层可上移/下移。
+3. 用“选择”工具拖动图片，拖四角手柄缩放；需要边缘对齐时打开左栏“保存”下方的“磁吸”；滚轮缩放视图，拖动空白处/空格+拖动平移；双击空白回中；右键图层可上移/下移。
 4. 用左侧工具栏添加文字、画笔、打码、箭头或形状；底部属性栏调整颜色、字号、字体、描边、画笔和打码大小。
 5. 点击右上角“截图”可截取窗口或屏幕区域，截图会自动作为新图层加入。
 6. 点击“保存”，选择格式、质量和透明背景后导出。
@@ -143,7 +144,7 @@ cargo build --release --locked
 Free Collage is a fast, native Windows tool for collages, screenshot cleanup and light annotation. It does not use Electron, Qt or a third-party UI runtime: the interface is rasterized with tiny-skia, while window management, input, clipboard and screen capture use Win32.
 
 - Name: Free Collage
-- Version: 1.0.0
+- Version: 1.0.1
 - Platform: Windows 10/11 x64
 - Stack: Rust 2021, Win32, tiny-skia, ab_glyph, image, webp
 - License: GPL-3.0-only
@@ -155,6 +156,7 @@ Free Collage is a fast, native Windows tool for collages, screenshot cleanup and
 - **Native lightweight UI** with a custom borderless Win32 window, DPI awareness, a 1.5× layout on large windows and a compact layout on small screens.
 - **Import** via file dialog, `Ctrl+V`, or drag-and-drop; PNG, JPEG, WebP, GIF (first frame) and BMP.
 - **Free arrangement**: move, scale from corners, wheel zoom, space/middle-button pan, double-click empty canvas to fit.
+- **Magnetic snapping**: enable **Snap** below Save in the left toolbar; while dragging an image, nearby image/page edges and centres align automatically on both axes.
 - **Layers**: right-click any layer to move it up/down; undo up to 60 steps.
 - **Canvas modes**: auto-crop, A4/B5 portrait or landscape, and custom millimetre sizes at 36–1200 DPI.
 - **Text annotation**: nine common Windows fonts, size, colour, outline colour and width, with IME support.

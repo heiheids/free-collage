@@ -495,6 +495,10 @@ impl App {
             HitId::Language => self.open_language_popup(),
             HitId::CanvasChip => self.open_canvas_popup(),
             HitId::Screenshot => self.start_capture(),
+            HitId::SnapToggle => {
+                self.state.snap_enabled = !self.state.snap_enabled;
+                self.invalidate();
+            }
             HitId::FontFamily => self.open_font_popup(),
             HitId::FontChoice(i) => {
                 if let Some((family, _)) = crate::model::style::FONT_CHOICES.get(i as usize) {

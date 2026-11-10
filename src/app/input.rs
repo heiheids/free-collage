@@ -5,7 +5,7 @@ use windows_sys::Win32::UI::Input::KeyboardAndMouse::{
 };
 
 use crate::model::layer::{Layer, LayerKind, ShapeKind};
-use crate::model::{Point, Rect};
+use crate::model::{snap, Point, Rect};
 use crate::state::{Modal, Popup};
 use crate::tools::{Corner, Cursor, Drag, Tool};
 use crate::ui::HitId;
@@ -357,6 +357,33 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
                     }
                     let mut layer = start_layer;
                     layer.move_by(dx, dy);
+                    if self.state.snap_enabled
+                        && matches!(&layer.kind, LayerKind::Image { .. })
+                    {
+                        // Find the nearest vertical and horizontal guide
+                        // independently so both axes can snap at once.
+                        let targets: Vec<Rect> = self
+                            .state
+                            .doc
+                            .layers
+                            .iter()
+                            .filter(|other| {
+                                other.id != id
+                                    && other.visible
+                                    && matches!(&other.kind, LayerKind::Image { .. })
+                            })
+                            .map(|other| other.rect)
+                            .collect();
+                        let page = if self.state.doc.canvas.is_auto() {
+                            None
+                        } else {
+                            self.state.page_rect()
+                        };
+                        let threshold = 8.0 / self.state.view.zoom.max(0.01);
+                        let (sx, sy) =
+                            snap::offset(layer.rect, &targets, page, threshold);
+                        layer.move_by(sx, sy);
+                    }
                     if let Some(target) = self.state.doc.layer_mut(id) {
                         *target = layer;
                     }

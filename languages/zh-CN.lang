@@ -30,6 +30,7 @@ tool.delete=删除
 tool.clear=清空
 tool.undo=撤销
 tool.save=保存
+tool.snap=磁吸
 tool.text=文字
 tool.brush=画笔
 tool.mosaic=打码

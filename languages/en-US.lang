@@ -30,6 +30,7 @@ tool.delete=Delete
 tool.clear=Clear
 tool.undo=Undo
 tool.save=Save
+tool.snap=Snap
 tool.text=Text
 tool.brush=Brush
 tool.mosaic=Mosaic

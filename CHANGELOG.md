@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.1] - 2026-11-10
+
+### Added
+
+- Left-toolbar **Snap / 磁吸** toggle below Save, with a U-shaped magnet icon.
+- Image edge snapping while moving: nearest vertical and horizontal guides are applied independently, so both axes can align at once.
+- Snap targets include other visible image edges/centres and fixed-page edges/centre; threshold is 8 screen pixels.
+- `src/model/snap.rs` unit tests for simultaneous X/Y, threshold and page snapping.
+
 ## [1.0.0] - 2026-11-10
 
 首个公开版本 / First public release.

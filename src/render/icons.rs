@@ -143,6 +143,7 @@ pub enum Icon {
     Clear,
     Undo,
     Save,
+    Magnet,
     Text,
     Brush,
     Mosaic,
@@ -260,6 +261,17 @@ fn icon_path(icon: Icon, r: Rect) -> Option<Path> {
             pb.line_to(x(0.70), y(0.82));
             pb.line_to(x(0.30), y(0.82));
             pb.close();
+        }
+        Icon::Magnet => {
+            // U-shaped horseshoe magnet with two pole caps at the top.
+            pb.move_to(x(0.28), y(0.18));
+            pb.line_to(x(0.28), y(0.50));
+            pb.cubic_to(x(0.28), y(0.78), x(0.72), y(0.78), x(0.72), y(0.50));
+            pb.line_to(x(0.72), y(0.18));
+            pb.move_to(x(0.19), y(0.18));
+            pb.line_to(x(0.36), y(0.18));
+            pb.move_to(x(0.64), y(0.18));
+            pb.line_to(x(0.81), y(0.18));
         }
         Icon::Text => {
             pb.move_to(x(0.22), y(0.25));

@@ -539,6 +539,38 @@ impl<'a> Painter<'a> {
             self.text_in(label_rect, &label, fs, 400, color, Align::Center);
             self.hit_tool(*tool, *rect);
         }
+
+        let snap = l.snap;
+        let on = self.state.snap_enabled;
+        if on {
+            self.round(snap, l.px(8.0), theme::BLUE_SOFT);
+        } else if self.hover(HitId::SnapToggle) {
+            self.round(snap, l.px(8.0), theme::HOVER);
+        }
+        let snap_color = if on { theme::BLUE } else { theme::INK };
+        let small = snap.h < l.px(48.0);
+        let isize = if small { l.px(17.0) } else { l.px(24.0) };
+        let fs = if small { l.px(8.5) } else { l.px(11.5) };
+        let gap = l.px(2.5);
+        let label_h = fs * self.ui_boost * 1.35;
+        let total = isize + gap + label_h;
+        let top = snap.y + ((snap.h - total) * 0.5).max(l.px(1.0));
+        draw_icon(
+            &mut self.pixmap,
+            Icon::Magnet,
+            Rect::new(snap.center().x - isize * 0.5, top, isize, isize),
+            snap_color,
+            l.px(1.7),
+        );
+        let label = self.t("tool.snap");
+        let label_rect = Rect::new(
+            snap.x,
+            top + isize + gap,
+            snap.w,
+            label_h + l.px(2.0),
+        );
+        self.text_in(label_rect, &label, fs, 400, snap_color, Align::Center);
+        self.push_hit(HitId::SnapToggle, snap);
     }
 
     fn paint_canvas(&mut self) {

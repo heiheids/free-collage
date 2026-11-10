@@ -3,6 +3,7 @@ pub mod document;
 pub mod geometry;
 pub mod history;
 pub mod layer;
+pub mod snap;
 pub mod style;
 
 pub use canvas::CanvasMode;
