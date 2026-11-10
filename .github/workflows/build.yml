@@ -1,0 +1,37 @@
+name: Windows build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release
+        run: cargo build --release --locked
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FreeCollage-windows-x64
+          if-no-files-found: error
+          path: |
+            target/release/PuzzleStudio.exe
+            target/release/languages/**
+            target/release/assets/**
+            README.md
+            LICENSE
+            COPYRIGHT
+            THIRD_PARTY_NOTICES.txt

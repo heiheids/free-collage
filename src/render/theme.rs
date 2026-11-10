@@ -1,0 +1,24 @@
+use crate::model::style::Rgba;
+
+pub const BG: Rgba = Rgba::opaque(238, 241, 245);
+pub const PANEL: Rgba = Rgba::opaque(255, 255, 255);
+pub const PANEL_ALT: Rgba = Rgba::opaque(247, 248, 250);
+pub const INK: Rgba = Rgba::opaque(24, 32, 44);
+pub const MUTED: Rgba = Rgba::opaque(112, 122, 136);
+pub const FAINT: Rgba = Rgba::opaque(156, 166, 180);
+pub const LINE: Rgba = Rgba::opaque(228, 233, 240);
+pub const LINE_STRONG: Rgba = Rgba::opaque(211, 219, 229);
+pub const BLUE: Rgba = Rgba::opaque(37, 99, 235);
+pub const BLUE_SOFT: Rgba = Rgba::opaque(235, 243, 255);
+pub const BLUE_HOVER: Rgba = Rgba::opaque(224, 236, 255);
+pub const HOVER: Rgba = Rgba::opaque(244, 247, 250);
+pub const DANGER: Rgba = Rgba::opaque(220, 38, 38);
+pub const DANGER_SOFT: Rgba = Rgba::opaque(254, 236, 236);
+pub const WHITE: Rgba = Rgba::opaque(255, 255, 255);
+pub const SHADOW: Rgba = Rgba::new(20, 31, 50, 18);
+pub const CHECKER_A: Rgba = Rgba::opaque(250, 251, 252);
+pub const CHECKER_B: Rgba = Rgba::opaque(238, 241, 245);
+pub const TOAST: Rgba = Rgba::opaque(31, 41, 55);
+pub const MODAL_DIM: Rgba = Rgba::new(12, 18, 28, 92);
+pub const MODAL_SHADOW: Rgba = Rgba::new(12, 18, 28, 70);
+pub const GREEN: Rgba = Rgba::opaque(5, 150, 105);

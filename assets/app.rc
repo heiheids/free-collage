@@ -1,0 +1,30 @@
+#pragma code_page(1252)
+
+101 ICON "app.ico"
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x00040004L
+FILETYPE 0x00000001L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "Heishan Dashu"
+            VALUE "FileDescription", "Free Collage - Collage and Annotation"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "InternalName", "FreeCollage"
+            VALUE "OriginalFilename", "FreeCollage.exe"
+            VALUE "ProductName", "Free Collage"
+            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 Heishan Dashu"
+            VALUE "AuthorHomepage", "https://space.bilibili.com/19428259"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

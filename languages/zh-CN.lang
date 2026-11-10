@@ -1,0 +1,134 @@
+# 自由拼图 · 简体中文
+code=zh-CN
+name=简体中文
+
+app.title=自由拼图
+app.about=关于
+header.language=语言
+header.auto=跟随系统
+header.canvas=画布
+header.screenshot=截图
+
+canvas.auto=自动裁切
+canvas.a4=A4 纵向
+canvas.a4_landscape=A4 横向
+canvas.b5=B5 纵向
+canvas.b5_landscape=B5 横向
+canvas.custom=自定义尺寸
+canvas.width=宽度（mm）
+canvas.height=高度（mm）
+canvas.dpi=分辨率（DPI）
+canvas.apply=应用
+canvas.hint=自动模式按内容边界裁切；固定纸张按设定尺寸导出。
+canvas.size={0} × {1} px
+canvas.canvas_title=画布尺寸
+
+tool.select=选择
+tool.open=打开
+tool.paste=粘贴
+tool.delete=删除
+tool.clear=清空
+tool.undo=撤销
+tool.save=保存
+tool.text=文字
+tool.brush=画笔
+tool.mosaic=打码
+tool.eraser=橡皮
+tool.arrow=箭头
+tool.border=边框
+tool.rect=矩形
+tool.ellipse=圆形
+
+settings.shape=形状边框
+settings.fill=填充色
+settings.text=文字颜色
+settings.font=字号
+settings.stroke=描边
+settings.brush=画笔
+settings.mosaic=打码
+settings.none=无填充
+settings.custom=自定义…
+settings.zoom=缩放
+settings.fit=适应
+settings.actual=100%
+bottom.actual_size=实际 {0} × {1} px
+settings.border_color=边框色
+settings.fill_color=填充色
+settings.text_color=文字色
+settings.text_outline=边缘色
+settings.font_family=字体
+layer.move_up=上移一层
+layer.move_down=下移一层
+close.title=保存作品？
+close.message=当前作品还没有保存为图片，关闭前是否保存？
+close.save=保存
+close.discard=不保存
+close.cancel=取消
+
+empty.title=把图片拼成你想要的样子
+empty.body=导入图片后自由拖动、缩放，也可以直接 Ctrl+V 粘贴。
+empty.open=打开图片
+empty.paste=粘贴图片
+empty.hint=支持 PNG / JPEG / WebP / GIF / BMP
+
+save.title=导出图片
+save.format=格式
+save.quality=压缩质量
+save.quality_hint=仅 JPEG / WebP 可调；PNG 为无损压缩。
+save.quality_lossless=无损
+save.transparent=透明背景
+save.transparent_hint=仅 PNG / WebP 支持透明；JPEG 会自动填白。
+save.cancel=取消
+save.export=导出…
+save.page=输出尺寸
+save.autocrop=自动裁切
+save.fixed=固定画布
+save.summary=将导出 {0} × {1} px
+save.quality_value={0}
+
+about.title=关于自由拼图
+about.version=版本 {0}
+about.author=作者
+about.homepage=主页
+about.intro=程序简介
+about.intro_text=轻量自由拼图工具：导入或粘贴图片，自由缩放摆放；支持 A4/B5 或自定义画布、自动裁切、透明 PNG/JPEG/WebP/BMP，以及文字、画笔、打码、橡皮、箭头和形状标注。
+about.tech=技术说明
+about.tech_body=原生 Windows 界面，Rust 编写；图像库与 WebP 编解码均静态集成，无需额外 DLL。
+about.close=关闭
+
+status.ready=就绪
+status.opened=已打开 {0} 张图片
+status.pasted=已粘贴图片
+status.saved=已保存：{0}
+status.deleted=已删除所选图层
+status.cleared=已清空画布
+status.undone=已撤销
+status.no_undo=没有可撤销的操作
+status.nothing=没有可导出的内容
+status.no_selection=请先选择一个图层
+status.clipboard_empty=剪贴板中没有图片
+status.open_failed=无法打开图片：{0}
+status.paste_failed=粘贴失败
+status.save_failed=保存失败：{0}
+status.canvas_auto=已切换到自动裁切
+status.canvas_fixed=画布已设为 {0} × {1} px
+status.undo_tip=可撤销
+status.fit=已适应窗口
+status.edit_text=编辑文字，Ctrl+Enter 完成，Esc 取消
+status.select=已选择图层
+status.delete_brush=橡皮仅作用于图片和标注
+
+hint.shortcuts=Ctrl+O 打开 · Ctrl+V 粘贴 · Ctrl+Z 撤销 · Ctrl+S 导出
+hint.canvas=滚轮缩放 · 空白/空格拖动 · Ctrl+0 适应
+hint.text_edit=Ctrl+Enter 完成 · Esc 取消
+
+color.custom=自定义颜色…
+color.none=无
+lang.system=跟随系统
+
+unit.mm=mm
+unit.dpi=DPI
+
+modal.ok=确定
+modal.cancel=取消
+tooltip.homepage=打开作者主页

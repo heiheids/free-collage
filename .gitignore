@@ -1,0 +1,17 @@
+/target/
+/dist/
+/拼图坊工程备份/
+/settings.cfg
+/state-dump.txt
+
+*.log
+*.pdb
+*.ilk
+*.exe
+*.zip
+
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

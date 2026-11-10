@@ -1,0 +1,134 @@
+# Free Collage - English
+code=en-US
+name=English
+
+app.title=Free Collage
+app.about=About
+header.language=Language
+header.auto=Auto
+header.canvas=Canvas
+header.screenshot=Capture
+
+canvas.auto=Auto crop
+canvas.a4=A4 Portrait
+canvas.a4_landscape=A4 Landscape
+canvas.b5=B5 Portrait
+canvas.b5_landscape=B5 Landscape
+canvas.custom=Custom size
+canvas.width=Width (mm)
+canvas.height=Height (mm)
+canvas.dpi=Resolution (DPI)
+canvas.apply=Apply
+canvas.hint=Auto crops to content bounds; paper sizes export at the set dimensions.
+canvas.size={0} × {1} px
+canvas.canvas_title=Canvas size
+
+tool.select=Select
+tool.open=Open
+tool.paste=Paste
+tool.delete=Delete
+tool.clear=Clear
+tool.undo=Undo
+tool.save=Save
+tool.text=Text
+tool.brush=Brush
+tool.mosaic=Mosaic
+tool.eraser=Eraser
+tool.arrow=Arrow
+tool.border=Border
+tool.rect=Rect
+tool.ellipse=Ellipse
+
+settings.shape=Shape border
+settings.fill=Fill
+settings.text=Text color
+settings.font=Size
+settings.stroke=Stroke
+settings.brush=Brush
+settings.mosaic=Mosaic
+settings.none=No fill
+settings.custom=Custom…
+settings.zoom=Zoom
+settings.fit=Fit
+settings.actual=100%
+bottom.actual_size=Actual {0} × {1} px
+settings.border_color=Border
+settings.fill_color=Fill
+settings.text_color=Text
+settings.text_outline=Text edge
+settings.font_family=Font
+layer.move_up=Move up
+layer.move_down=Move down
+close.title=Save before closing?
+close.message=This artwork has not been saved as an image. Save it before closing?
+close.save=Save
+close.discard=Don't save
+close.cancel=Cancel
+
+empty.title=Make a collage your way
+empty.body=Open images, then drag and scale them freely. You can also press Ctrl+V to paste.
+empty.open=Open images
+empty.paste=Paste image
+empty.hint=Supports PNG / JPEG / WebP / GIF / BMP
+
+save.title=Export image
+save.format=Format
+save.quality=Quality
+save.quality_hint=Adjustable for JPEG / WebP; PNG is lossless.
+save.quality_lossless=Lossless
+save.transparent=Transparent background
+save.transparent_hint=PNG / WebP support transparency; JPEG is filled with white.
+save.cancel=Cancel
+save.export=Export…
+save.page=Output size
+save.autocrop=Auto crop
+save.fixed=Fixed canvas
+save.summary=Will export {0} × {1} px
+save.quality_value={0}
+
+about.title=About Free Collage
+about.version=Version {0}
+about.author=Author
+about.homepage=Homepage
+about.intro=About this app
+about.intro_text=A lightweight collage studio: import or paste images, move and scale them freely, use auto-crop or A4/B5/custom pages, and export transparent PNG, JPEG, WebP or BMP. Annotate with text, brush, mosaic, eraser, arrows and shapes.
+about.tech=Technology
+about.tech_body=Native Windows UI written in Rust. Image codecs and WebP support are statically linked; no extra DLLs required.
+about.close=Close
+
+status.ready=Ready
+status.opened=Opened {0} image(s)
+status.pasted=Image pasted
+status.saved=Saved: {0}
+status.deleted=Layer deleted
+status.cleared=Canvas cleared
+status.undone=Undone
+status.no_undo=Nothing to undo
+status.nothing=Nothing to export
+status.no_selection=Select a layer first
+status.clipboard_empty=No image in the clipboard
+status.open_failed=Could not open image: {0}
+status.paste_failed=Paste failed
+status.save_failed=Save failed: {0}
+status.canvas_auto=Switched to auto crop
+status.canvas_fixed=Canvas set to {0} × {1} px
+status.undo_tip=Undo available
+status.fit=Fit to window
+status.edit_text=Edit text. Ctrl+Enter to finish, Esc to cancel
+status.select=Layer selected
+status.delete_brush=Eraser only affects images and annotations
+
+hint.shortcuts=Ctrl+O open · Ctrl+V paste · Ctrl+Z undo · Ctrl+S export
+hint.canvas=Wheel zoom · Drag empty/Space · Ctrl+0 fit
+hint.text_edit=Ctrl+Enter finish · Esc cancel
+
+color.custom=Custom color…
+color.none=No fill
+lang.system=System
+
+unit.mm=mm
+unit.dpi=DPI
+
+modal.ok=OK
+modal.cancel=Cancel
+tooltip.homepage=Open author homepage

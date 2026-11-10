@@ -1,0 +1,57 @@
+# 第三方组件声明 / Third-Party Notices
+
+自由拼图 (Free Collage) 使用以下开源组件。所有组件均以静态方式链接，发布包不需要额外 DLL。
+
+Free Collage uses the following open-source crates. All are statically linked; no extra DLLs are required.
+
+The application source is licensed under GPL-3.0-only. The third-party components below retain their own licenses; they are compatible with GPLv3.
+
+## Rust crates
+
+### windows-sys 0.61.2
+- Purpose: Win32 API bindings.
+- License: MIT OR Apache-2.0.
+- Repository: https://github.com/microsoft/windows-rs
+
+### image 0.25.10
+- Purpose: PNG, JPEG, BMP and GIF image codecs.
+- License: MIT OR Apache-2.0.
+- Repository: https://github.com/image-rs/image
+- Indirect dependencies include `png`, `zune-jpeg`, `zune-core`, `gif`, `color_quant`, `byteorder-lite`, `num-traits`, `moxcms`, `flate2`, `miniz_oxide`, `fdeflate`, `weezl`, `bytemuck`, `bitflags`, `arrayvec`, `pxfm`, `strict-num`, `crc32fast`, `adler2`, `simd-adler32`, `cfg-if`, `autocfg`, `getrandom`.
+
+### tiny-skia 0.11.4 / tiny-skia-path 0.11.4
+- Purpose: anti-aliased 2D rasterization for shapes, paths and images.
+- License: BSD-3-Clause.
+- Repository: https://github.com/RazrFalcon/tiny-skia
+
+### webp 0.3.1
+- Purpose: WebP encoding/decoding wrapper.
+- License: MIT OR Apache-2.0.
+- Repository: https://github.com/jaredforth/webp
+
+### libwebp (vendored by libwebp-sys 0.9.6)
+- Purpose: lossy/lossless WebP codec with alpha and quality.
+- License: BSD-3-Clause.
+- Copyright: Google Inc. and libwebp contributors.
+- Repository: https://chromium.googlesource.com/webm/libwebp
+
+### ab_glyph 0.2.32 / ab_glyph_rasterizer 0.1.10
+- Purpose: parsing system TrueType/OpenType glyph outlines and rasterizing grayscale coverage for UI and exported text.
+- License: Apache-2.0.
+- Repository: https://github.com/alexheretic/ab-glyph
+
+### owned_ttf_parser 0.25.1 / ttf-parser 0.25.1
+- Purpose: font collection/TTC parsing used by ab_glyph.
+- License: MIT (owned_ttf_parser) / MIT OR Apache-2.0 (ttf-parser).
+- Repository: https://github.com/RazrFalcon/ttf-parser
+
+## Fonts
+
+Free Collage reads the operating system's `Microsoft YaHei UI` / `Microsoft YaHei` font files at runtime. No font files are redistributed with this package. The fonts remain subject to Microsoft's licensing terms and are not part of this project's GPL-3.0-only license.
+
+## Notes
+
+- `Cargo.lock` contains the complete dependency tree and exact versions.
+- Full license texts are available in each crate's package and upstream repository.
+- No GPL/AGPL third-party dependencies are intentionally included; the application itself is licensed GPL-3.0-only.
+- Windows system libraries (`user32`, `gdi32`, `comdlg32`, `shell32`, `dwmapi`, `kernel32`) are part of the operating system and are not redistributed.
