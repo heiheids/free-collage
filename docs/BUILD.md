@@ -153,12 +153,14 @@ gh run watch --repo heiheids/free-collage
 
 ```powershell
 gh release create v1.0.0 `
-  "dist\自由拼图_v1.0.0_win64.zip" `
+  "dist\FreeCollage_v1.0.0_win64.zip" `
   "dist\SHA256SUMS.txt" `
   --repo heiheids/free-collage `
   --title "自由拼图 v1.0.0 / Free Collage v1.0.0" `
   --notes-file docs/RELEASE_NOTES.md
 ```
+
+GitHub 对 Release 资产名会过滤非 ASCII 字符，因此上传时使用 ASCII 文件名 `FreeCollage_v1.0.0_win64.zip`；ZIP 内的目录和可执行文件仍保留中文名。
 
 Release 必须同时提供：
 

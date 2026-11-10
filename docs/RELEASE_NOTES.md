@@ -22,7 +22,7 @@ First public release.
 
 ### 安装
 
-下载 `自由拼图_v1.0.0_win64.zip`，解压后运行 `自由拼图.exe`。支持 Windows 10/11 x64。
+下载 `FreeCollage_v1.0.0_win64.zip`，解压后运行 `自由拼图.exe`。支持 Windows 10/11 x64。
 
 ### 许可证
 
@@ -49,7 +49,7 @@ GPL-3.0-only。源码：https://github.com/heiheids/free-collage
 
 ### Install
 
-Download `自由拼图_v1.0.0_win64.zip`, extract and run `自由拼图.exe`. Windows 10/11 x64.
+Download `FreeCollage_v1.0.0_win64.zip`, extract and run `自由拼图.exe`. Windows 10/11 x64.
 
 ### License
 

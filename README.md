@@ -52,7 +52,7 @@
 
 ### 下载
 
-从 [GitHub Releases](https://github.com/heiheids/free-collage/releases/latest) 下载最新的 `自由拼图_v1.0.0_win64.zip`。发布包包含 EXE、语言文件、图标、README、GPL 许可证和第三方声明。
+从 [GitHub Releases](https://github.com/heiheids/free-collage/releases/latest) 下载最新的 `FreeCollage_v1.0.0_win64.zip`。发布包包含 EXE、语言文件、图标、README、GPL 许可证和第三方声明。
 
 ### 快速开始
 
