@@ -21,7 +21,7 @@
 自由拼图面向快速拼图、截图整理和简单标注。它不依赖 Electron、Qt 或第三方 UI 运行时，界面由 tiny-skia 自绘，窗口、输入、剪贴板和截图使用 Win32 API。发布版为单个静态链接的 EXE，不需要额外 DLL。
 
 - 程序名：自由拼图 / Free Collage
-- 版本：1.0.2
+- 版本：1.0.3
 - 平台：Windows 10 / 11 x64
 - 技术栈：Rust 2021、Win32、tiny-skia、ab_glyph、image、webp
 - 许可证：GPL-3.0-only
@@ -54,7 +54,7 @@
 
 ### 下载
 
-从 [GitHub Releases](https://github.com/heiheids/free-collage/releases/latest) 下载最新的 `FreeCollage_v1.0.2_win64.zip`。发布包包含 EXE、语言文件、图标、README、GPL 许可证和第三方声明。
+从 [GitHub Releases](https://github.com/heiheids/free-collage/releases/latest) 下载最新的 `FreeCollage_v1.0.3_win64.zip`。发布包包含 EXE、语言文件、图标、README、GPL 许可证和第三方声明。
 
 ### 快速开始
 
@@ -145,7 +145,7 @@ cargo build --release --locked
 Free Collage is a fast, native Windows tool for collages, screenshot cleanup and light annotation. It does not use Electron, Qt or a third-party UI runtime: the interface is rasterized with tiny-skia, while window management, input, clipboard and screen capture use Win32.
 
 - Name: Free Collage
-- Version: 1.0.2
+- Version: 1.0.3
 - Platform: Windows 10/11 x64
 - Stack: Rust 2021, Win32, tiny-skia, ab_glyph, image, webp
 - License: GPL-3.0-only

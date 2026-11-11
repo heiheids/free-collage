@@ -777,6 +777,10 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
     }
 
     fn update_cursor(&mut self) {
+        if self.state.crop.is_some() {
+            self.state.cursor = Cursor::Arrow;
+            return;
+        }
         if self.state.space_down {
             self.state.cursor = Cursor::Hand;
             return;
@@ -875,7 +879,7 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
                 crop.dragging = false;
             }
             self.state.modal = Some(Modal::CropConfirm);
-            self.state.cursor = Cursor::Crosshair;
+            self.state.cursor = Cursor::Arrow;
         }
         self.mouse_down = false;
         self.invalidate();

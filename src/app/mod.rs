@@ -502,7 +502,7 @@ impl App {
         self.state.drag = crate::tools::Drag::None;
         self.state.modal = None;
         self.state.popup = None;
-        self.state.cursor = Cursor::Crosshair;
+        self.state.cursor = Cursor::Arrow;
         self.state.toast_i18n("status.crop_hint");
         self.invalidate();
     }

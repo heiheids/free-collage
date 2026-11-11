@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.3] - 2026-11-11
+
+### Fixed
+
+- Crop mode now uses the normal arrow cursor instead of the image-move/crosshair cursor, so the pointer no longer obscures the exact crop position.
+
 ## [1.0.2] - 2026-11-11
 
 ### Added

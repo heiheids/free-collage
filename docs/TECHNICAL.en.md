@@ -1,7 +1,7 @@
 # Free Collage · Technical Notes
 
 > Project: Free Collage / 自由拼图  
-> Version: 1.0.2  
+> Version: 1.0.3  
 > Platform: Windows 10/11 x64  
 > License: GPL-3.0-only  
 > Source: https://github.com/heiheids/free-collage
@@ -202,7 +202,7 @@ Typical development machine, 1650×1075 Release: about 13 ms/frame for an empty 
 ### Image cropping
 
 - **Crop** sits below Snap in the left toolbar and is enabled only when the selected layer is an image; otherwise it is greyed out and explains that an image must be selected.
-- Entering crop mode takes over the next left-button drag on the canvas. Both endpoints are converted to document coordinates and clamped to the image rectangle.
+- Entering crop mode forces the normal arrow cursor so the image-move cursor does not obscure the selection; the next left-button drag is handled by crop logic. Both endpoints are converted to document coordinates and clamped to the image rectangle.
 - Outside the selection is dimmed and the boundary is drawn as a blue dashed rectangle. On release, a selection larger than 2 screen pixels opens `Modal::CropConfirm`.
 - Confirming clones the layer, maps the selection to source-pixel bounds, copies those pixels into a new `Pixmap`, and recalculates the layer's world rectangle from the cropped pixel ratio, preserving its position and display scale.
 - History is committed only after a successful crop. Cancel, `Esc` or closing the confirmation clears crop state without modifying the image.
