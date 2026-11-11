@@ -483,9 +483,69 @@ impl App {
         self.invalidate();
     }
 
+    pub fn begin_crop(&mut self) {
+        let Some(layer) = self.state.selected_layer() else {
+            self.state.toast_i18n("status.crop_select");
+            return;
+        };
+        if !layer.is_image() {
+            self.state.toast_i18n("status.crop_select");
+            return;
+        }
+        let id = layer.id;
+        self.state.crop = Some(crate::state::CropState {
+            layer: id,
+            start: crate::model::Point::ZERO,
+            rect: crate::model::Rect::ZERO,
+            dragging: false,
+        });
+        self.state.drag = crate::tools::Drag::None;
+        self.state.modal = None;
+        self.state.popup = None;
+        self.state.cursor = Cursor::Crosshair;
+        self.state.toast_i18n("status.crop_hint");
+        self.invalidate();
+    }
+
+    pub fn cancel_crop(&mut self) {
+        self.state.crop = None;
+        if self.state.modal == Some(Modal::CropConfirm) {
+            self.state.modal = None;
+        }
+        self.state.toast = None;
+        self.mouse_down = false;
+        self.state.cursor = Cursor::Arrow;
+        self.invalidate();
+    }
+
+    pub fn apply_crop(&mut self) {
+        let Some(crop) = self.state.crop else {
+            return;
+        };
+        let Some(layer) = self.state.doc.layer(crop.layer).cloned() else {
+            self.cancel_crop();
+            return;
+        };
+        let mut cropped = layer;
+        if !cropped.crop_image(crop.rect) {
+            self.cancel_crop();
+            self.state.toast_i18n("status.crop_too_small");
+            return;
+        }
+        self.state.push_history();
+        if let Some(target) = self.state.doc.layer_mut(crop.layer) {
+            *target = cropped;
+        }
+        self.state.crop = None;
+        self.state.modal = None;
+        self.mouse_down = false;
+        self.state.cursor = Cursor::Arrow;
+        self.state.toast_i18n("status.cropped");
+        self.invalidate();
+    }
+
     pub fn handle_hit(&mut self, id: HitId) {
-        match id {
-            HitId::Tool(tool) => self.tool_action(tool),
+        match id {            HitId::Tool(tool) => self.tool_action(tool),
             HitId::Min | HitId::Max | HitId::Close => self.window_command(id),
             HitId::About => {
                 self.state.popup = None;
@@ -499,6 +559,23 @@ impl App {
                 self.state.snap_enabled = !self.state.snap_enabled;
                 self.invalidate();
             }
+            HitId::Crop => {
+                if self.state.crop.is_some() {
+                    self.cancel_crop();
+                } else if self
+                    .state
+                    .selected_layer()
+                    .map(|layer| layer.is_image())
+                    .unwrap_or(false)
+                {
+                    self.begin_crop();
+                } else {
+                    self.state.toast_i18n("status.crop_select");
+                    self.invalidate();
+                }
+            }
+            HitId::CropApply => self.apply_crop(),
+            HitId::CropCancel => self.cancel_crop(),
             HitId::FontFamily => self.open_font_popup(),
             HitId::FontChoice(i) => {
                 if let Some((family, _)) = crate::model::style::FONT_CHOICES.get(i as usize) {

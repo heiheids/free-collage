@@ -16,6 +16,11 @@ use super::App;
 
 impl App {
     pub(super) fn tool_action(&mut self, tool: Tool) {
+        if self.state.crop.is_some() {
+            self.state.crop = None;
+            self.state.modal = None;
+            self.state.toast = None;
+        }
         match tool {
             Tool::Open => self.open_dialog(),
             Tool::Paste => self.paste_image(),

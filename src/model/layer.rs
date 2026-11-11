@@ -328,6 +328,63 @@ impl Layer {
         }
     }
 
+    pub fn crop_image(&mut self, selection: Rect) -> bool {
+        let LayerKind::Image { pixmap } = &self.kind else {
+            return false;
+        };
+        let rect = self.rect;
+        if rect.w <= 0.0 || rect.h <= 0.0 || selection.w <= 0.0 || selection.h <= 0.0 {
+            return false;
+        }
+        let left = selection.x.max(rect.x);
+        let top = selection.y.max(rect.y);
+        let right = selection.right().min(rect.right());
+        let bottom = selection.bottom().min(rect.bottom());
+        if right - left < 0.5 || bottom - top < 0.5 {
+            return false;
+        }
+
+        let src_w = pixmap.width();
+        let src_h = pixmap.height();
+        if src_w == 0 || src_h == 0 {
+            return false;
+        }
+        let sw = src_w as f32;
+        let sh = src_h as f32;
+        let x0 = (((left - rect.x) / rect.w * sw).floor()).clamp(0.0, sw - 1.0) as u32;
+        let y0 = (((top - rect.y) / rect.h * sh).floor()).clamp(0.0, sh - 1.0) as u32;
+        let x1 = (((right - rect.x) / rect.w * sw).ceil()).clamp(x0 as f32 + 1.0, sw) as u32;
+        let y1 = (((bottom - rect.y) / rect.h * sh).ceil()).clamp(y0 as f32 + 1.0, sh) as u32;
+        if x0 == 0 && y0 == 0 && x1 == src_w && y1 == src_h {
+            return false;
+        }
+        let cw = x1 - x0;
+        let ch = y1 - y0;
+        let Some(mut out) = Pixmap::new(cw, ch) else {
+            return false;
+        };
+        let src_data = pixmap.data();
+        let dst_data = out.data_mut();
+        let row_bytes = cw as usize * 4;
+        for row in 0..ch {
+            let src_start = (((y0 + row) * src_w + x0) * 4) as usize;
+            let dst_start = row as usize * row_bytes;
+            dst_data[dst_start..dst_start + row_bytes]
+                .copy_from_slice(&src_data[src_start..src_start + row_bytes]);
+        }
+        let new_rect = Rect::new(
+            rect.x + x0 as f32 / sw * rect.w,
+            rect.y + y0 as f32 / sh * rect.h,
+            cw as f32 / sw * rect.w,
+            ch as f32 / sh * rect.h,
+        );
+        self.rect = new_rect;
+        self.kind = LayerKind::Image {
+            pixmap: Arc::new(out),
+        };
+        true
+    }
+
     pub fn scale_from(&mut self, anchor: Point, sx: f32, sy: f32) {
         if !sx.is_finite() || !sy.is_finite() || sx.abs() < 1e-4 || sy.abs() < 1e-4 {
             return;
@@ -542,4 +599,35 @@ fn stroke_bounds(points: &[Point], width: f32) -> Rect {
         r = r.union(Rect::from_points(*p, *p));
     }
     r.inflate(width * 0.5 + 1.0)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn crop_image_keeps_selected_pixels_and_position() {
+        let mut pixmap = Pixmap::new(4, 4).unwrap();
+        for y in 0..4u32 {
+            for x in 0..4u32 {
+                let i = ((y * 4 + x) * 4) as usize;
+                pixmap.data_mut()[i..i + 4].copy_from_slice(&[
+                    (x * 40) as u8,
+                    (y * 40) as u8,
+                    20,
+                    255,
+                ]);
+            }
+        }
+        let mut layer = Layer::image(
+            1,
+            "test",
+            Arc::new(pixmap),
+            Rect::new(0.0, 0.0, 4.0, 4.0),
+        );
+        assert!(layer.crop_image(Rect::new(1.0, 1.0, 2.0, 2.0)));
+        assert_eq!(layer.rect, Rect::new(1.0, 1.0, 2.0, 2.0));
+        let pixmap = layer.pixmap().unwrap();
+        assert_eq!((pixmap.width(), pixmap.height()), (2, 2));
+    }
 }

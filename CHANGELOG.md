@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.2] - 2026-11-11
+
+### Added
+
+- Left-toolbar **Crop / 裁切** button below Snap, enabled only when an image layer is selected.
+- Crop mode draws a dimmed area with a blue dashed selection; releasing opens a confirmation dialog.
+- Confirming keeps the selected pixels, crops the rest, preserves the image's world position/scale and records undo history. Cancelling or Esc exits crop mode unchanged.
+- `Layer::crop_image` pixel-crop implementation and a unit test.
+
 ## [1.0.1] - 2026-11-10
 
 ### Added

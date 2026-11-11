@@ -101,6 +101,58 @@ pub fn line(pixmap: &mut Pixmap, a: crate::model::Point, b: crate::model::Point,
     }
 }
 
+pub fn dashed_rect(
+    pixmap: &mut Pixmap,
+    rect: Rect,
+    color: Rgba,
+    width: f32,
+    dash: f32,
+    gap: f32,
+) {
+    if rect.w <= 0.0 || rect.h <= 0.0 || color.a == 0 || width <= 0.0 {
+        return;
+    }
+    let step = (dash + gap).max(1.0);
+    let mut x = rect.x;
+    while x < rect.right() {
+        let end = (x + dash).min(rect.right());
+        line(
+            pixmap,
+            crate::model::Point::new(x, rect.y),
+            crate::model::Point::new(end, rect.y),
+            color,
+            width,
+        );
+        line(
+            pixmap,
+            crate::model::Point::new(x, rect.bottom()),
+            crate::model::Point::new(end, rect.bottom()),
+            color,
+            width,
+        );
+        x += step;
+    }
+    let mut y = rect.y;
+    while y < rect.bottom() {
+        let end = (y + dash).min(rect.bottom());
+        line(
+            pixmap,
+            crate::model::Point::new(rect.x, y),
+            crate::model::Point::new(rect.x, end),
+            color,
+            width,
+        );
+        line(
+            pixmap,
+            crate::model::Point::new(rect.right(), y),
+            crate::model::Point::new(rect.right(), end),
+            color,
+            width,
+        );
+        y += step;
+    }
+}
+
 pub fn circle(pixmap: &mut Pixmap, center: crate::model::Point, radius: f32, color: Rgba) {
     let mut pb = PathBuilder::new();
     pb.push_circle(center.x, center.y, radius.max(0.1));
@@ -144,6 +196,7 @@ pub enum Icon {
     Undo,
     Save,
     Magnet,
+    Crop,
     Text,
     Brush,
     Mosaic,
@@ -272,6 +325,15 @@ fn icon_path(icon: Icon, r: Rect) -> Option<Path> {
             pb.line_to(x(0.36), y(0.18));
             pb.move_to(x(0.64), y(0.18));
             pb.line_to(x(0.81), y(0.18));
+        }
+        Icon::Crop => {
+            // Crop marks: two overlapping L-shaped brackets.
+            pb.move_to(x(0.18), y(0.36));
+            pb.line_to(x(0.18), y(0.82));
+            pb.line_to(x(0.64), y(0.82));
+            pb.move_to(x(0.36), y(0.18));
+            pb.line_to(x(0.82), y(0.18));
+            pb.line_to(x(0.82), y(0.64));
         }
         Icon::Text => {
             pb.move_to(x(0.22), y(0.25));

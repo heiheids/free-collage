@@ -12,10 +12,10 @@ pub use export::render_for_export;
 
 use tiny_skia::Pixmap;
 use crate::model::geometry::{Point, Rect};
-use crate::model::ColorTarget;
+use crate::model::{ColorTarget, Rgba};
 use crate::platform::gdi::TextEngine;
 use crate::render::icons::{
-    draw_icon, draw_logo, fill_path, fill_rect, fill_round_rect, ring, round_rect_path,
+    dashed_rect, draw_icon, draw_logo, fill_path, fill_rect, fill_round_rect, ring, round_rect_path,
     stroke_path, stroke_round_rect, Icon,
 };
 use crate::state::State;
@@ -326,6 +326,7 @@ impl<'a> Painter<'a> {
         self.paint_bottom();
         self.ui_boost = 1.0;
         self.paint_selection();
+        self.paint_crop();
     }
 
     fn paint_header(&mut self) {
@@ -571,6 +572,49 @@ impl<'a> Painter<'a> {
         );
         self.text_in(label_rect, &label, fs, 400, snap_color, Align::Center);
         self.push_hit(HitId::SnapToggle, snap);
+
+        let crop = l.crop;
+        let crop_enabled = self
+            .state
+            .selected_layer()
+            .map(|layer| layer.is_image())
+            .unwrap_or(false);
+        let crop_active = self.state.crop.is_some();
+        if crop_active {
+            self.round(crop, l.px(8.0), theme::BLUE_SOFT);
+        } else if self.hover(HitId::Crop) && crop_enabled {
+            self.round(crop, l.px(8.0), theme::HOVER);
+        }
+        let crop_color = if !crop_enabled {
+            theme::MUTED.with_alpha(190)
+        } else if crop_active {
+            theme::BLUE
+        } else {
+            theme::INK
+        };
+        let small = crop.h < l.px(48.0);
+        let isize = if small { l.px(17.0) } else { l.px(24.0) };
+        let fs = if small { l.px(8.5) } else { l.px(11.5) };
+        let gap = l.px(2.5);
+        let label_h = fs * self.ui_boost * 1.35;
+        let total = isize + gap + label_h;
+        let top = crop.y + ((crop.h - total) * 0.5).max(l.px(1.0));
+        draw_icon(
+            &mut self.pixmap,
+            Icon::Crop,
+            Rect::new(crop.center().x - isize * 0.5, top, isize, isize),
+            crop_color,
+            l.px(1.7),
+        );
+        let label = self.t("tool.crop");
+        let label_rect = Rect::new(
+            crop.x,
+            top + isize + gap,
+            crop.w,
+            label_h + l.px(2.0),
+        );
+        self.text_in(label_rect, &label, fs, 400, crop_color, Align::Center);
+        self.push_hit(HitId::Crop, crop);
     }
 
     fn paint_canvas(&mut self) {
@@ -1045,6 +1089,45 @@ impl<'a> Painter<'a> {
             fill_round_rect(&mut self.pixmap, h, l.px(2.0), theme::WHITE);
             stroke_round_rect(&mut self.pixmap, h, l.px(2.0), blue, l.px(1.5));
         }
+    }
+
+    fn paint_crop(&mut self) {
+        let Some(crop) = self.state.crop else {
+            return;
+        };
+        if crop.rect.w <= 0.0 || crop.rect.h <= 0.0 {
+            return;
+        }
+        let l = self.layout.clone();
+        let screen = page_screen_rect(crop.rect, self.state.view.zoom, self.state.view.pan);
+        if screen.intersect(l.canvas).is_empty() {
+            return;
+        }
+        let sx = screen.x.max(l.canvas.x);
+        let sy = screen.y.max(l.canvas.y);
+        let ex = screen.right().min(l.canvas.right());
+        let ey = screen.bottom().min(l.canvas.bottom());
+        let dim = Rgba::new(15, 23, 42, 105);
+        if sy > l.canvas.y {
+            self.fill(Rect::new(l.canvas.x, l.canvas.y, l.canvas.w, sy - l.canvas.y), dim);
+        }
+        if ey < l.canvas.bottom() {
+            self.fill(Rect::new(l.canvas.x, ey, l.canvas.w, l.canvas.bottom() - ey), dim);
+        }
+        if sx > l.canvas.x {
+            self.fill(Rect::new(l.canvas.x, sy, sx - l.canvas.x, (ey - sy).max(0.0)), dim);
+        }
+        if ex < l.canvas.right() {
+            self.fill(Rect::new(ex, sy, l.canvas.right() - ex, (ey - sy).max(0.0)), dim);
+        }
+        dashed_rect(
+            &mut self.pixmap,
+            screen,
+            theme::BLUE,
+            l.px(2.0),
+            l.px(9.0),
+            l.px(5.0),
+        );
     }
 
     pub(crate) fn paint_toast(&mut self) {

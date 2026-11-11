@@ -59,6 +59,8 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
                 | HitId::CloseCancel
                 | HitId::AboutClose
                 | HitId::Homepage
+                | HitId::CropApply
+                | HitId::CropCancel
         )
     }
 
@@ -110,6 +112,18 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
         self.state.mouse_in_canvas = self.layout.canvas.contains(self.state.mouse);
         if self.state.slider_drag && self.state.modal == Some(Modal::Save) {
             self.set_quality_from_x(x);
+        }
+        if self
+            .state
+            .crop
+            .as_ref()
+            .map(|crop| crop.dragging)
+            .unwrap_or(false)
+        {
+            self.crop_update(Point::new(x, y));
+            self.state.hover = None;
+            self.invalidate();
+            return;
         }
         let dragging = !matches!(self.state.drag, Drag::None);
         if dragging && self.mouse_down {
@@ -189,6 +203,13 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
 
         if let Some(id) = self.hit_at(p) {
             self.handle_hit(id);
+            return;
+        }
+
+        if self.state.crop.is_some() && self.layout.canvas.contains(p) {
+            self.mouse_down = true;
+            self.crop_down(p);
+            self.invalidate();
             return;
         }
 
@@ -459,6 +480,16 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
     }
 
     pub fn mouse_up(&mut self) {
+        if self
+            .state
+            .crop
+            .as_ref()
+            .map(|crop| crop.dragging)
+            .unwrap_or(false)
+        {
+            self.crop_finish();
+            return;
+        }
         let drag = std::mem::replace(&mut self.state.drag, Drag::None);
         match drag {
             Drag::Stroke { mut points } => {
@@ -595,10 +626,18 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
         }
 
         if vk == VK_ESCAPE as usize {
-            if self.state.modal.is_some() {
+            if self.state.modal == Some(Modal::CropConfirm) {
+                self.state.modal = None;
+                self.state.crop = None;
+                self.state.toast = None;
+            } else if self.state.modal.is_some() {
                 self.state.modal = None;
             } else if self.state.popup.is_some() {
                 self.state.close_popup();
+            } else if self.state.crop.is_some() {
+                self.state.crop = None;
+                self.state.toast = None;
+                self.mouse_down = false;
             } else if !matches!(self.state.drag, Drag::None) {
                 self.state.drag = Drag::None;
                 self.mouse_down = false;
@@ -789,6 +828,57 @@ impl App {    fn hit_at(&self, p: Point) -> Option<HitId> {
             (screen.x - self.state.view.pan.x) / zoom,
             (screen.y - self.state.view.pan.y) / zoom,
         )
+    }
+
+    fn crop_down(&mut self, screen: Point) {
+        let Some(crop_state) = self.state.crop else {
+            return;
+        };
+        let Some(layer) = self.state.doc.layer(crop_state.layer) else {
+            return;
+        };
+        let p = self.doc_point(screen);
+        if !layer.rect.contains(p) {
+            return;
+        }
+        if let Some(crop) = &mut self.state.crop {
+            crop.start = p;
+            crop.rect = Rect::ZERO;
+            crop.dragging = true;
+        }
+    }
+
+    fn crop_update(&mut self, screen: Point) {
+        let p = self.doc_point(screen);
+        let Some(crop_state) = self.state.crop else {
+            return;
+        };
+        let Some(layer) = self.state.doc.layer(crop_state.layer) else {
+            return;
+        };
+        let rect = Rect::from_points(crop_state.start, p).intersect(layer.rect);
+        if let Some(crop) = &mut self.state.crop {
+            crop.rect = rect;
+        }
+    }
+
+    fn crop_finish(&mut self) {
+        let Some(crop) = self.state.crop else {
+            return;
+        };
+        let zoom = self.state.view.zoom.max(0.01);
+        if crop.rect.w * zoom < 2.0 || crop.rect.h * zoom < 2.0 {
+            self.state.crop = None;
+            self.state.toast_i18n("status.crop_too_small");
+        } else {
+            if let Some(crop) = &mut self.state.crop {
+                crop.dragging = false;
+            }
+            self.state.modal = Some(Modal::CropConfirm);
+            self.state.cursor = Cursor::Crosshair;
+        }
+        self.mouse_down = false;
+        self.invalidate();
     }
 
     fn mosaic_segment(&mut self, to: Point, tol: f32) {

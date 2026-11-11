@@ -142,6 +142,15 @@ pub enum Modal {
     Save,
     About,
     CloseConfirm,
+    CropConfirm,
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct CropState {
+    pub layer: u64,
+    pub start: Point,
+    pub rect: Rect,
+    pub dragging: bool,
 }
 
 pub struct State {
@@ -157,6 +166,7 @@ pub struct State {
     pub popup: Option<Popup>,
     pub modal: Option<Modal>,
     pub drag: Drag,
+    pub crop: Option<CropState>,
     pub hover: Option<HitId>,
     pub mouse: Point,
     pub mouse_in_canvas: bool,
@@ -195,6 +205,7 @@ impl State {
             popup: None,
             modal: None,
             drag: Drag::None,
+            crop: None,
             hover: None,
             mouse: Point::ZERO,
             mouse_in_canvas: false,

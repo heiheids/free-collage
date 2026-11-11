@@ -296,6 +296,7 @@ impl<'a> Painter<'a> {
             Modal::Save => self.modal_save(),
             Modal::About => self.modal_about(),
             Modal::CloseConfirm => self.modal_close_confirm(),
+            Modal::CropConfirm => self.modal_crop_confirm(),
         }
     }
 
@@ -418,6 +419,55 @@ impl<'a> Painter<'a> {
         self.primary_button(save, HitId::CloseSave, "close.save", None);
         self.secondary_button(discard, HitId::CloseDiscard, "close.discard", None);
         self.secondary_button(cancel, HitId::CloseCancel, "close.cancel", None);
+    }
+
+    fn modal_crop_confirm(&mut self) {
+        let l = self.layout.clone();
+        let panel = Rect::new(
+            l.width * 0.5 - l.px(210.0),
+            l.height * 0.5 - l.px(110.0),
+            l.px(420.0),
+            l.px(220.0),
+        );
+        self.modal_panel(panel);
+        let title = self.t("crop.title");
+        self.text_at(
+            panel.x + l.px(28.0),
+            panel.y + l.px(22.0),
+            &title,
+            l.px(19.0),
+            600,
+            theme::INK,
+        );
+        let message = self.t("crop.message");
+        self.wrapped(
+            Rect::new(
+                panel.x + l.px(28.0),
+                panel.y + l.px(60.0),
+                panel.w - l.px(56.0),
+                l.px(62.0),
+            ),
+            &message,
+            l.px(11.5),
+            400,
+            theme::MUTED,
+            Align::Left,
+        );
+        let by = panel.bottom() - l.px(60.0);
+        let cancel = Rect::new(
+            panel.right() - l.px(28.0) - l.px(90.0),
+            by,
+            l.px(90.0),
+            l.px(40.0),
+        );
+        let apply = Rect::new(
+            cancel.x - l.px(10.0) - l.px(110.0),
+            by,
+            l.px(110.0),
+            l.px(40.0),
+        );
+        self.primary_button(apply, HitId::CropApply, "crop.apply", None);
+        self.secondary_button(cancel, HitId::CropCancel, "crop.cancel", None);
     }
 
     fn modal_about(&mut self) {

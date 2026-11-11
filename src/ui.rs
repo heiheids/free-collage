@@ -56,6 +56,9 @@ pub enum HitId {
     AboutClose,
     Homepage,
     SnapToggle,
+    Crop,
+    CropApply,
+    CropCancel,
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -114,6 +117,7 @@ pub struct Layout {
     pub actual_size: Rect,
     pub tools: Vec<(Tool, Rect)>,
     pub snap: Rect,
+    pub crop: Rect,
 }
 
 impl Layout {
@@ -209,7 +213,7 @@ impl Layout {
         let inner = toolbar.inflate(-s(8.0));
         let gap = s(6.0);
         let col_gap = s(8.0);
-        let rows = 8.0;
+        let rows = 9.0;
         let bw = (inner.w - col_gap) * 0.5;
         let avail = (inner.h - s(8.0)).max(0.0);
         let bh = ((avail - gap * (rows - 1.0)) / rows).clamp(s(32.0), s(92.0));
@@ -223,6 +227,12 @@ impl Layout {
             tools.push((*tool, Rect::new(x, y, bw, bh)));
         }
         let snap = Rect::new(
+            inner.x,
+            start_y + (rows - 2.0) * (bh + gap),
+            bw,
+            bh,
+        );
+        let crop = Rect::new(
             inner.x,
             start_y + (rows - 1.0) * (bh + gap),
             bw,
@@ -272,6 +282,7 @@ impl Layout {
             actual_size,
             tools,
             snap,
+            crop,
         }
     }
 
